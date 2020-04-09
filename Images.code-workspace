@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.venvPath": "~/.env,~/.venv,${workspaceFolder}/.env"
+	},
+	"extensions": {
+		"recommendations": []
+	}
+}

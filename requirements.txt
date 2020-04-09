@@ -1,3 +1,3 @@
-rtmidi
+python-rtmidi
 mido
 opencv-python

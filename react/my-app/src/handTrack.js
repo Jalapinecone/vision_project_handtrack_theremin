@@ -150,9 +150,7 @@ export class ObjectDetection {
       )
       let timeEnd = Date.now()
       self.fps = Math.round(1000 / (timeEnd - timeBegin))
-
       return predictions
-
     })
 
   }

@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import './images/1.jpg'
 
 function App() {
   return (
@@ -19,18 +18,7 @@ function App() {
           </div>
           <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
           <canvas id="canvas" class="border canvasbox"></canvas>
-
-
-
-
-
-
-
           <script src="index.js"></script>
-          <script>
-            window.WebComponents = window.WebComponents || {};
-            window.WebComponents.root = 'node_modules/@webcomponents/webcomponentsjs/';
-          </script>
       </body>
     </div>
   );

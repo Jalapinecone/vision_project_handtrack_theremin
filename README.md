@@ -1,5 +1,5 @@
 ## System Dependencies:
-To run this app, you'll need npm to manage your packages and yarn, a package manager built by facebook with deterministic and the default way of launching react apps.
+To run this app, you'll need npm to manage your packages and yarn, a package manager built by facebook with deterministic dependency handling and the default way of launching react apps.
 - npm, the node.js package manager can be installed from: [https://nodejs.org/en/](https://nodejs.org/en/)
 - yarn can be installed using npm through:
 ```code

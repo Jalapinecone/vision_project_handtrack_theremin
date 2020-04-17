@@ -20,6 +20,7 @@ const context = canvas.getContext("2d");
 let trackButton = document.getElementById("trackbutton");
 let updateNote = document.getElementById("updatenote");
 let confidenceSlider = document.getElementById("confidencerange"); 
+let confidenceDisp = document.getElementById("confidencethreshdisp");
 
 let isVideo = false;
 let model = null;
@@ -34,13 +35,14 @@ trackButton.addEventListener("click", async () => {
 });
 
 confidenceSlider.addEventListener("mouseup", async () => {
-    updateConfidence(this)
+    updateConfidence(confidenceSlider)
 });
 
 function updateConfidence(e) {
     modelParams.scoreThreshold = e.value / 100
     console.log("threshold: ",modelParams.scoreThreshold)
-    this.model.setModelParameters(this.modelParams.modelParams)
+    model.setModelParameters(modelParams)
+    confidenceDisp.innerText = e.value + "%"
 }
 
 

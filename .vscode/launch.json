@@ -9,7 +9,7 @@
           "type": "node",
           "request": "launch",
           "runtimeExecutable": "${workspaceFolder}/react/my-app/node_modules/.bin/react-scripts",
-          "args": ["start", "--runInBand", "--no-cache", "--watchAll=false"],
+          "args": ["test", "--runInBand", "--no-cache", "--watchAll=false"],
           "cwd": "${workspaceFolder}/react/my-app/",
           "protocol": "inspector",
           "console": "integratedTerminal",

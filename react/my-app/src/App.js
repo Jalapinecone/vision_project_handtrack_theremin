@@ -4,7 +4,6 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <body class="bx--body p20">
           <div class="p20">
             Handtracked Theremin
           </div>
@@ -17,17 +16,18 @@ function App() {
             <div id="updatenote" class="updatenote mt10"> loading model ..</div>
           </div>
           <div class="slidecontainer flexfull  ">
+            <p><b>Detection Threshold</b></p>
             <input type="range" val="70" min="1" max="100" class="slider" id="confidencerange"></input>
+            <output id="confidencethreshdisp">70%</output>
           </div>
           {/* <form oninput="result.value=parseInt(b.value)">
             <input type="range" name="b" value="70" min="1" max="100" class="slider" />
             <output name="result"></output>
           </form> */}
 
-          <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
+          <video class="videobox canvasbox" autoPlay="autoplay" id="myvideo"></video>
           <canvas id="canvas" class="border canvasbox"></canvas>
           <script src="index.js"></script>
-      </body>
     </div>
   );
 }

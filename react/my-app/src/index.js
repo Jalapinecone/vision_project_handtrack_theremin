@@ -19,14 +19,36 @@ const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
 let trackButton = document.getElementById("trackbutton");
 let updateNote = document.getElementById("updatenote");
+let confidenceSlider = document.getElementById("confidencerange"); 
 
 let isVideo = false;
 let model = null;
 
+
+
+// click to enable both camera and audio (a requirement for many browsers)
+trackButton.addEventListener("click", async () => {
+    await Tone.start()
+    console.log('audio is ready')
+    toggleVideo();
+});
+
+confidenceSlider.addEventListener("mouseup", async () => {
+    updateConfidence(this)
+});
+
+function updateConfidence(e) {
+    modelParams.scoreThreshold = e.value / 100
+    console.log("threshold: ",modelParams.scoreThreshold)
+    this.model.setModelParameters(this.modelParams.modelParams)
+}
+
+
+
 // video.width = 500
 // video.height = 400
 
-const modelParams = {
+var modelParams = {
     flipHorizontal: true,   // flip e.g for video  
     maxNumBoxes: 2,        // maximum number of boxes to detect
     iouThreshold: 0.5,      // ioU threshold for non-max suppression
@@ -59,12 +81,9 @@ function toggleVideo() {
     }
 }
 
-// click to enable both camera and audio (a requirement for many browsers)
-trackButton.addEventListener("click", async () => {
-    await Tone.start()
-    console.log('audio is ready')
-    toggleVideo();
-});
+
+
+
 
 function runDetection() {
     model.detect(video).then(predictions => {
@@ -101,6 +120,9 @@ function runDetection() {
     });
 }
 
+
+
+
 // Load the model.
 handTrack.load(modelParams).then(lmodel => {
     // detect objects in the image.
@@ -128,28 +150,68 @@ var notes = chords.map((chord) => {
   })
 
 
-let channel = new Tone.Gain(1) // a gain (or volume) node with full volume (0-1)
-let synth =  new Tone.Synth({
-    "oscillator" : {
-        "type" : "amtriangle",
-        "harmonicity" : 0.5,
-        "modulationType" : "sine"
-    },
-    "envelope" : {
-        "attackCurve" : "exponential",
-        "attack" : 0.02,
-        "decay" : 0.8,
-        "sustain" : 0.2,
-        "release" : 3.0,
-    },
-    "portamento" : 0.05
-})
+// let channel = new Tone.Gain(1) // a gain (or volume) node with full volume (0-1)
+// let synth =  new Tone.Synth({
+//     "oscillator" : {
+//         "type" : "amtriangle",
+//         "harmonicity" : 0.5,
+//         "modulationType" : "sine"
+//     },
+//     "envelope" : {
+//         "attackCurve" : "exponential",
+//         "attack" : 0.02,
+//         "decay" : 0.8,
+//         "sustain" : 0.2,
+//         "release" : 3.0,
+//     },
+//     "portamento" : 0.05
+// })
 
-channel.toMaster() // send the gain to the master output
-synth.connect(channel) // send the synth to the gain node
 
-var appvol = new Tone.Volume(-112);
-appvol.toMaster();
+function makeSynth() {
+    let envelope = {
+        attack: 0.4,
+        release: 4,
+        releaseCurve: 'linear'
+    };
+    let filterEnvelope = {
+        baseFrequency: 200,
+        octaves: 2,
+        attack: 0,
+        decay: 0,
+        release: 1000
+    };
+
+    return new Tone.DuoSynth({
+        harmonicity: 1,
+        volume: -10,
+        voice0: {
+            oscillator: { type: 'sawtooth' },
+            envelope,
+            filterEnvelope
+        },
+        voice1: {
+            oscillator: { type: 'sine' },
+            envelope,
+            filterEnvelope
+        },
+        vibratoRate: 0.5,
+        vibratoAmount: 0.1
+    });
+}
+
+let synth = makeSynth();
+let echo = new Tone.FeedbackDelay('16n', 0.1);
+let delay = Tone.context.createDelay(6.0); // Borrow the AudioContext from Tone.js
+let gain = Tone.context.createGain();
+let vol = new Tone.Volume();
+
+delay.delayTime.value = 6.0;
+gain.gain.value = 0.75;
+
+synth.connect(gain);
+synth.connect(vol)
+vol.toMaster();
 
 function predictToTone(box) {
     let freq = box*2
@@ -158,12 +220,9 @@ function predictToTone(box) {
 }
 
 function predictToVol(box) {
-    let vol = box
-    console.log("volume: ",vol)
-
-    if (vol > 0){
-        console.log("Setting volume to: ", vol)
-        channel.value = vol/400;
+    if (box > 0){
+        console.log("Setting volume to: ", box)
+        vol.value = -box;
     }
 }
 

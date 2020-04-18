@@ -21,6 +21,7 @@ let trackButton = document.getElementById("trackbutton");
 let updateNote = document.getElementById("updatenote");
 let confidenceSlider = document.getElementById("confidencerange"); 
 let confidenceDisp = document.getElementById("confidencethreshdisp");
+let noteDisp = document.getElementById("notedisp");
 
 let isVideo = false;
 let model = null;
@@ -221,8 +222,11 @@ vol.toMaster();
 
 function predictToTone(box) {
     let freq = box*2
-    console.log("Freq: ",freq)
-	synth.setNote(freq)
+    let note = Tone.Frequency(freq).toNote()
+    noteDisp.innerText ='Note: ' + note;
+    synth.setNote(note)
+    
+
 }
 
 function predictToVol(box) {

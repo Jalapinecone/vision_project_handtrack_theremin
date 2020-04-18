@@ -20,11 +20,9 @@ function App() {
             <input type="range" val="70" min="1" max="100" class="slider" id="confidencerange"></input>
             <output id="confidencethreshdisp">70%</output>
           </div>
-          {/* <form oninput="result.value=parseInt(b.value)">
-            <input type="range" name="b" value="70" min="1" max="100" class="slider" />
-            <output name="result"></output>
-          </form> */}
-
+          <div id="freq flexfull">
+            <p id="notedisp"></p>
+          </div>
           <video class="videobox canvasbox" autoPlay="autoplay" id="myvideo"></video>
           <canvas id="canvas" class="border canvasbox"></canvas>
           <script src="index.js"></script>

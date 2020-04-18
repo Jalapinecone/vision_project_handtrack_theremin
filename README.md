@@ -13,11 +13,16 @@ yarn install
 ```
 
 ### Starting the app:
-Use:
+For OS X/Linux use:
 ```code
 yarn start
 ```
 to start the app in the development mode.<br />
+
+On Windows, use:
+```code
+yarn win-start
+```
 
 By default, the server should open at: [https://localhost:3000](https://localhost:3000).
 

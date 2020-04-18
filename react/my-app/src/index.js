@@ -23,7 +23,7 @@ let confidenceSlider = document.getElementById("confidencerange");
 let confidenceDisp = document.getElementById("confidencethreshdisp");
 let noteDisp = document.getElementById("notedisp");
 let notelines = document.getElementById("notelines");
-let notevalues = ['A0','A#0','B0','C0','C#0','D0','D#0','E0','F0','F#0','G0','Ab0','A1','A#1','B1','C1','C#1','D1','D#1','E1','F1','F#1','G1','Ab1']
+let notevalues = ['A0','A#0','B0','C1','C#1','D1','D#1','E1','F1','F#1','G1','Ab1','A1','A#1','B1','C2','C#2','D2','D#2','E2','F2','F#2','G2','Ab2']
 
 let maxnotes = notevalues.length
 

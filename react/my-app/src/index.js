@@ -220,13 +220,16 @@ synth.connect(gain);
 synth.connect(vol)
 vol.toMaster();
 
+function boxToFreq(box) {
+    let freq = box*(65-16)/400 + 16 //converts our 0-400 input to the freq range of the first 2 octaves
+    return freq
+}
+
 function predictToTone(box) {
-    let freq = box*2
+    let freq = boxToFreq(box)
     let note = Tone.Frequency(freq).toNote()
     noteDisp.innerText ='Note: ' + note;
     synth.setNote(note)
-    
-
 }
 
 function predictToVol(box) {

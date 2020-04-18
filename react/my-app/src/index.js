@@ -23,12 +23,20 @@ let confidenceSlider = document.getElementById("confidencerange");
 let confidenceDisp = document.getElementById("confidencethreshdisp");
 let noteDisp = document.getElementById("notedisp");
 let notelines = document.getElementById("notelines");
+let notevalues = ['A0','A#0','B0','C0','C#0','D0','D#0','E0','F0','F#0','G0','Ab0','A1','A#1','B1','C1','C#1','D1','D#1','E1','F1','F#1','G1','Ab1']
 
-for (let i=0; i<10; i++) {
+let maxnotes = notevalues.length
+
+let factor = 2^(1/12)
+
+for (let i=0; i<notevalues.length; i++) {
 	let note1 = document.createElement('hr');
 	notelines.appendChild(note1)
 	let t1 = document.createElement('p');
-	t1.innerHTML = "A"
+	let a1 = document.createAttribute('style');
+	a1.value = "margin-top:6px; margin-bottom:6px;";
+	t1.innerHTML = notevalues[i]
+	t1.setAttributeNode(a1)
 	notelines.appendChild(t1);
 }
 // handtracking model object
@@ -213,15 +221,18 @@ synth.connect(vol)
 vol.toMaster();
 
 function boxToFreq(box) {
-    let freq = box*(65-16)/400 + 16 //converts our 0-400 input to the freq range of the first 2 octaves
+    let freq = box*(65-16)/480 + 16 //converts our 0-400 input to the freq range of the first 2 octaves
     return freq
 }
 
 function predictToTone(box) {
-    let freq = boxToFreq(box)
-    let note = Tone.Frequency(freq).toNote()
+	let fact = 480/maxnotes
+	let pos = Math.ceil(box / fact)
+    //let freq = boxToFreq(box)
+    let note = notevalues[pos]
     noteDisp.innerText ='Note: ' + note;
-    synth.setNote(note)
+	let noteFreq = Tone.Frequency(note).transpose(24)
+    synth.setNote(noteFreq)
 }
 
 function predictToVol(box) {

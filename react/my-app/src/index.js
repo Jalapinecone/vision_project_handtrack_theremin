@@ -24,6 +24,8 @@ let confidenceDisp = document.getElementById("confidencethreshdisp");
 let noteDisp = document.getElementById("notedisp");
 let notelines = document.getElementById("notelines");
 let notevalues = ['A0','A#0','B0','C1','C#1','D1','D#1','E1','F1','F#1','G1','Ab1','A1','A#1','B1','C2','C#2','D2','D#2','E2','F2','F#2','G2','Ab2']
+var prevnote = 'A0'
+var note = 'A0'
 
 let maxnotes = notevalues.length
 
@@ -34,9 +36,12 @@ for (let i=0; i<notevalues.length; i++) {
 	notelines.appendChild(note1)
 	let t1 = document.createElement('p');
 	let a1 = document.createAttribute('style');
+	let a2 = document.createAttribute('id');
 	a1.value = "margin-top:6px; margin-bottom:6px;";
+	a2.value = notevalues[i]
 	t1.innerHTML = notevalues[i]
 	t1.setAttributeNode(a1)
+	t1.setAttributeNode(a2)
 	notelines.appendChild(t1);
 }
 // handtracking model object
@@ -229,20 +234,23 @@ function predictToTone(box) {
 	let fact = 480/maxnotes
 	let pos = Math.ceil(box / fact)
     //let freq = boxToFreq(box)
-    let note = notevalues[pos]
+	prevnote = note
+    note = notevalues[pos]
     noteDisp.innerText ='Note: ' + note;
 	let noteFreq = Tone.Frequency(note).transpose(24)
     synth.setNote(noteFreq)
+	document.getElementById(prevnote).style.color="black"
+	document.getElementById(note).style.color="red"
 }
 
 function predictToVol(box) {
     console.log(vol)
 	console.log("Setting volume to: ", box)
-	if (box > 300) {
+	if (box > 350) {
 		vol.volume.value = 0
 	}
 	else {
-		vol.volume.value = (box-300)/2
+		vol.volume.value = (box/5)-70
 	}
 }
 

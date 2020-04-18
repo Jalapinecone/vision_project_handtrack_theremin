@@ -12,6 +12,7 @@ import * as tf from '@tensorflow/tfjs';
 // const basePath = "https://cdn.jsdelivr.net/npm/handtrackjs/models/web/"
 const basePath = "/models/web/"
 var self = this;
+tf.setBackend('webgl')
 
 const defaultParams = {
   flipHorizontal: true,
@@ -121,6 +122,7 @@ export class ObjectDetection {
       const [maxScores, classes] = calculateMaxScores(scores, result[0].shape[1], result[0].shape[2]);
       const prevBackend = tf.getBackend()
       // run post process in cpu
+      console.log(prevBackend)
       tf.setBackend('cpu')
       const indexTensor = tf.tidy(() => {
         const boxes2 = tf.tensor2d(boxes, [

@@ -206,7 +206,7 @@ let synth = makeSynth();
 let echo = new Tone.FeedbackDelay('16n', 0.1);
 let delay = Tone.context.createDelay(6.0); // Borrow the AudioContext from Tone.js
 let gain = Tone.context.createGain();
-let vol = new Tone.Volume(-100);
+let vol = new Tone.Volume(0);
 
 delay.delayTime.value = 6.0;
 gain.gain.value = 0.75;
@@ -223,11 +223,13 @@ function predictToTone(box) {
 
 function predictToVol(box) {
     console.log(vol)
-    // vol.value = -1000
-    // if (box > 0){
-    //     console.log("Setting volume to: ", box)
-    //     vol.value = -box;
-    // }
+	console.log("Setting volume to: ", box)
+	if (box > 300) {
+		vol.volume.value = 0
+	}
+	else {
+		vol.volume.value = (box-300)/2
+	}
 }
 
 

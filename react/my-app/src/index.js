@@ -22,7 +22,15 @@ let updateNote = document.getElementById("updatenote");
 let confidenceSlider = document.getElementById("confidencerange"); 
 let confidenceDisp = document.getElementById("confidencethreshdisp");
 let noteDisp = document.getElementById("notedisp");
+let notelines = document.getElementById("notelines");
 
+for (let i=0; i<10; i++) {
+	let note1 = document.createElement('hr');
+	notelines.appendChild(note1)
+	let t1 = document.createElement('p');
+	t1.innerHTML = "A"
+	notelines.appendChild(t1);
+}
 // handtracking model object
 let model = null;
 

@@ -23,7 +23,10 @@ function App() {
           <div id="freq flexfull">
             <p id="notedisp"></p>
           </div>
-          <video class="videobox canvasbox" autoPlay="autoplay" id="myvideo"></video>
+		  <div class="wrapper">
+			<div id="notelines"></div>
+		    <video class="videobox canvasbox" autoPlay="autoplay" id="myvideo"></video>
+		  </div>
           <canvas id="canvas" class="border canvasbox"></canvas>
           <script src="index.js"></script>
     </div>

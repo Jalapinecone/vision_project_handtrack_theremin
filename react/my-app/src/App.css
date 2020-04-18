@@ -50,6 +50,13 @@ body {
   display:none;
 }
 
+.wrapper {
+	display:inline-block;
+	width:5%;
+}
+
+#notelines hr:nth-of-type(n) {padding:0px; margin:0px; noshade:"noshade"}
+
 .canvasbox {
   border-radius: 3px;
   margin-right: 10px;

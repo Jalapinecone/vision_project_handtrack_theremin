@@ -208,9 +208,11 @@ let delay = Tone.context.createDelay(6.0); // Borrow the AudioContext from Tone.
 let gain = Tone.context.createGain();
 let vol = new Tone.Volume(0);
 
+
 delay.delayTime.value = 6.0;
 gain.gain.value = 0.75;
 
+synth.triggerAttack()
 synth.connect(gain);
 synth.connect(vol)
 vol.toMaster();
@@ -218,7 +220,7 @@ vol.toMaster();
 function predictToTone(box) {
     let freq = box*2
     console.log("Freq: ",freq)
-    synth.triggerAttackRelease(freq,'1n');
+	synth.setNote(freq)
 }
 
 function predictToVol(box) {

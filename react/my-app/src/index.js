@@ -74,12 +74,15 @@ function startVideo() {
 function toggleVideo() {
     if (!isVideo) {
         updateNote.innerText = "Starting video"
+		synth.triggerAttack()
         startVideo();
     } else {
         updateNote.innerText = "Stopping video"
+		synth.triggerRelease()
         handTrack.stopVideo(video)
         isVideo = false;
         updateNote.innerText = "Video stopped"
+		
     }
 }
 
@@ -212,7 +215,6 @@ let vol = new Tone.Volume(0);
 delay.delayTime.value = 6.0;
 gain.gain.value = 0.75;
 
-synth.triggerAttack()
 synth.connect(gain);
 synth.connect(vol)
 vol.toMaster();

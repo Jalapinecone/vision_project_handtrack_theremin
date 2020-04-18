@@ -46,6 +46,10 @@ body {
   padding: 20px;
 }
 
+.videobox {
+  display:none;
+}
+
 .canvasbox {
   border-radius: 3px;
   margin-right: 10px;

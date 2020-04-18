@@ -13,7 +13,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// THIS IS ALL THE UI HANDLING 
+// UI objects
 const video = document.getElementById("myvideo");
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
@@ -23,10 +23,12 @@ let confidenceSlider = document.getElementById("confidencerange");
 let confidenceDisp = document.getElementById("confidencethreshdisp");
 let noteDisp = document.getElementById("notedisp");
 
-let isVideo = false;
+// handtracking model object
 let model = null;
 
 
+// #########################################
+// ########## Event Listeners ##############
 
 // click to enable both camera and audio (a requirement for many browsers)
 trackButton.addEventListener("click", async () => {
@@ -39,39 +41,7 @@ confidenceSlider.addEventListener("mouseup", async () => {
     updateConfidence(confidenceSlider)
 });
 
-function updateConfidence(e) {
-    modelParams.scoreThreshold = e.value / 100
-    console.log("threshold: ",modelParams.scoreThreshold)
-    model.setModelParameters(modelParams)
-    confidenceDisp.innerText = e.value + "%"
-}
-
-
-
-// video.width = 500
-// video.height = 400
-
-var modelParams = {
-    flipHorizontal: true,   // flip e.g for video  
-    maxNumBoxes: 2,        // maximum number of boxes to detect
-    iouThreshold: 0.5,      // ioU threshold for non-max suppression
-    scoreThreshold: 0.7,    // confidence threshold for predictions.
-}
-
-function startVideo() {
-    handTrack.startVideo(video).then(function (status) {
-        console.log("video started", status);
-
-        if (status) {
-            updateNote.innerText = "Video started. Now tracking"
-            isVideo = true
-            runDetection()
-        } else {
-            updateNote.innerText = "Please enable video"
-        }
-    });
-}
-
+let isVideo = false;
 function toggleVideo() {
     if (!isVideo) {
         updateNote.innerText = "Starting video"
@@ -89,7 +59,43 @@ function toggleVideo() {
 
 
 
+// ######################################################
+// ########### Model/Tensorflow Handling ################
+var modelParams = {
+    flipHorizontal: true,   // flip e.g for video  
+    maxNumBoxes: 2,        // maximum number of boxes to detect
+    iouThreshold: 0.5,      // ioU threshold for non-max suppression
+    scoreThreshold: 0.7,    // confidence threshold for predictions.
+}
+// Load the model.
+handTrack.load(modelParams).then(lmodel => {
+    // detect objects in the image.
+    model = lmodel
+    updateNote.innerText = "Loaded Model!"
+    trackButton.disabled = false
+});
 
+
+function updateConfidence(e) {
+    modelParams.scoreThreshold = e.value / 100
+    console.log("threshold: ",modelParams.scoreThreshold)
+    model.setModelParameters(modelParams)
+    confidenceDisp.innerText = e.value + "%"
+}
+
+function startVideo() {
+    handTrack.startVideo(video).then(function (status) {
+        console.log("video started", status);
+
+        if (status) {
+            updateNote.innerText = "Video started. Now tracking"
+            isVideo = true
+            runDetection()
+        } else {
+            updateNote.innerText = "Please enable video"
+        }
+    });
+}
 
 function runDetection() {
     model.detect(video).then(predictions => {
@@ -105,6 +111,7 @@ function runDetection() {
                 }
         }
 
+        // boilerplate code for using detected hands rather than left/right of screen
         // //lefthand
         // if (predictions[0]) {
         //     if (predictions[0].bbox[1]) {
@@ -129,13 +136,8 @@ function runDetection() {
 
 
 
-// Load the model.
-handTrack.load(modelParams).then(lmodel => {
-    // detect objects in the image.
-    model = lmodel
-    updateNote.innerText = "Loaded Model!"
-    trackButton.disabled = false
-});
+// ###########################################
+// ########### Sound Handling ################
 
 
 var octave = 4
@@ -154,24 +156,6 @@ var notes = chords.map((chord) => {
     // randomly get a note from the chord
     return chord[Math.floor(Math.random() * chord.length)]
   })
-
-
-// let channel = new Tone.Gain(1) // a gain (or volume) node with full volume (0-1)
-// let synth =  new Tone.Synth({
-//     "oscillator" : {
-//         "type" : "amtriangle",
-//         "harmonicity" : 0.5,
-//         "modulationType" : "sine"
-//     },
-//     "envelope" : {
-//         "attackCurve" : "exponential",
-//         "attack" : 0.02,
-//         "decay" : 0.8,
-//         "sustain" : 0.2,
-//         "release" : 3.0,
-//     },
-//     "portamento" : 0.05
-// })
 
 
 function makeSynth() {
@@ -242,6 +226,10 @@ function predictToVol(box) {
 		vol.volume.value = (box-300)/2
 	}
 }
+
+
+
+
 
 
 

@@ -45,3 +45,9 @@ using the run command in windows, or
  in OS X.
 
  This will allow you to bypass the insecure errors and not cause a crash when attempting to activate the camera.
+ 
+ ##How to use the Theremin
+ 
+ Your right hand controls volume
+ Your left hand controls tone
+ The scale on the left of the theremin camera window shows all the playable notes and highlights the current note in red
